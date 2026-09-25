@@ -11,13 +11,14 @@ export default function Home() {
     <div className="view">
       <div className="view-content">
         <section className="hero">
-          <p className="eyebrow">Cine · Actores</p>
+          <p className="eyebrow">Cine · Películas · Actores</p>
           <h1 className="hero-title">Arte7</h1>
           <p className="hero-text">
-            Consulta, crea y edita los actores de la plataforma.
+            Consulta las películas y crea, edita o elimina los actores de la plataforma.
           </p>
           <div className="hero-actions">
-            <Link href="/actors" className="button">Ver actores</Link>
+            <Link href="/movies" className="button">Ver películas</Link>
+            <Link href="/actors" className="button button--outline">Ver actores</Link>
             <Link href="/crear" className="button button--outline">Crear actor</Link>
           </div>
         </section>

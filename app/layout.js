@@ -9,8 +9,8 @@ const figtree = Figtree({
 });
 
 export const metadata = {
-  title: "Arte7 - Actores",
-  description: "CRUD de actores",
+  title: "Arte7",
+  description: "Películas y actores de Arte7",
 };
 
 export default function RootLayout({ children }) {
@@ -21,7 +21,9 @@ export default function RootLayout({ children }) {
           <header className="navbar">
             <Link href="/" className="brand">Arte7</Link>
             <nav className="nav-links">
+              <Link href="/movies">Películas</Link>
               <Link href="/actors">Actores</Link>
+              <Link href="/movies/crear">Crear película</Link>
               <Link href="/crear" className="button button--small">Crear actor</Link>
             </nav>
           </header>
