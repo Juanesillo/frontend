@@ -18,16 +18,17 @@ function getHue(name = '') {
   return hash;
 }
 
-// Las fotos del seed son placeholders de dummyimage.com (rectángulos de color),
-// así que en esos casos se muestran las iniciales del actor.
-function isPlaceholder(url) {
-  return !url || url.includes('dummyimage.com');
+// Las URLs del seed vienen con http:// y dummyimage.com las redirige a https,
+// así que se piden directamente por https. Sin URL o si falla la carga se
+// muestran las iniciales.
+function toHttps(url) {
+  return url.trim().replace(/^http:\/\//, 'https://');
 }
 
 export default function ActorPhoto({ name, photo, className = '' }) {
   const [failed, setFailed] = useState(false);
 
-  if (failed || isPlaceholder(photo)) {
+  if (failed || !photo) {
     return (
       <div
         className={`actor-photo actor-photo--fallback ${className}`}
@@ -51,7 +52,7 @@ export default function ActorPhoto({ name, photo, className = '' }) {
   return (
     <img
       className={`actor-photo ${className}`}
-      src={photo.replace(/^http:\/\//, 'https://')}
+      src={toHttps(photo)}
       alt={name}
       loading="lazy"
       onError={() => setFailed(true)}
