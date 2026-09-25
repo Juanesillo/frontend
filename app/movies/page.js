@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import MovieCard from '../components/MovieCard';
-import { getMovies } from '../../lib/api';
+import { getMovies, getPrizes } from '../../lib/api';
 
 export default function PeliculasPage() {
   const [movies, setMovies] = useState([]);
@@ -11,8 +11,18 @@ export default function PeliculasPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getMovies()
-      .then(setMovies)
+    // GET /movies no incluye los premios, pero GET /prizes trae cada premio con
+    // sus películas, así que se cruzan ambas respuestas en el front.
+    Promise.all([getMovies(), getPrizes()])
+      .then(([movieList, prizeList]) => {
+        const prizesByMovie = {};
+        for (const prize of prizeList) {
+          for (const movie of prize.movies ?? []) {
+            (prizesByMovie[movie.id] ??= []).push(prize);
+          }
+        }
+        setMovies(movieList.map((movie) => ({ ...movie, prizes: prizesByMovie[movie.id] ?? [] })));
+      })
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);

@@ -1,12 +1,52 @@
+/* Tema oscuro (por defecto) */
 :root {
   --background: #121212;
-  --surface: #1a1a1a;
-  --surface-hover: #242424;
-  --border: #2a2a2a;
-  --input: #2a2a2a;
-  --text: #ffffff;
-  --subdued: #a7a7a7;
-  --danger: #f15e6c;
+  --surface: #1c1c1e;
+  --surface-hover: #26262a;
+  --border: #2e2e33;
+  --input: #2a2a2e;
+  --text: #f5f5f7;
+  --subdued: #a1a1aa;
+  --placeholder: #71717a;
+  --focus: #a1a1aa;
+  --outline: #6b6b73;
+  --danger: #f87171;
+  --on-primary: #111111;
+  --navbar: rgba(18, 18, 18, 0.85);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+  /* Fallback de imágenes: degradado según el tono de cada nombre */
+  --ph-sat: 55%;
+  --ph-light-1: 42%;
+  --ph-light-2: 26%;
+  --ph-text: rgba(255, 255, 255, 0.92);
+
+  color-scheme: dark;
+}
+
+/* Tema claro: se aplica si el usuario lo eligió o si el sistema lo prefiere */
+:root[data-theme="light"] {
+  --background: #f6f6f8;
+  --surface: #ffffff;
+  --surface-hover: #f0f0f3;
+  --border: #e2e2e7;
+  --input: #f0f0f3;
+  --text: #18181b;
+  --subdued: #5f5f6b;
+  --placeholder: #9a9aa5;
+  --focus: #52525b;
+  --outline: #b4b4bd;
+  --danger: #dc2626;
+  --on-primary: #ffffff;
+  --navbar: rgba(246, 246, 248, 0.85);
+  --shadow: 0 1px 3px rgba(24, 24, 27, 0.08);
+
+  --ph-sat: 70%;
+  --ph-light-1: 86%;
+  --ph-light-2: 74%;
+  --ph-text: rgba(24, 24, 27, 0.72);
+
+  color-scheme: light;
 }
 
 * {
@@ -15,12 +55,9 @@
   margin: 0;
 }
 
-html {
-  color-scheme: dark;
-}
-
 body {
   min-height: 100vh;
+  transition: background-color 0.2s, color 0.2s;
   color: var(--text);
   background: var(--background);
   font-family: var(--font-figtree), Arial, Helvetica, sans-serif;
@@ -44,7 +81,7 @@ a {
   justify-content: space-between;
   height: 64px;
   padding: 0 2rem;
-  background: rgba(18, 18, 18, 0.9);
+  background: var(--navbar);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
 }
@@ -70,6 +107,34 @@ a {
 
 .nav-links > a:not(.button):hover {
   color: var(--text);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.theme-icon--moon,
+:root[data-theme="light"] .theme-icon--sun {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon--moon {
+  display: block;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  border-color: var(--outline);
 }
 
 /* ---------- Vistas ---------- */
@@ -175,7 +240,7 @@ a {
   border: 1px solid transparent;
   border-radius: 999px;
   background: var(--text);
-  color: #000;
+  color: var(--on-primary);
   font: inherit;
   font-size: 0.95rem;
   font-weight: 700;
@@ -201,7 +266,7 @@ a {
 .button--outline {
   background: transparent;
   color: var(--text);
-  border-color: #727272;
+  border-color: var(--outline);
 }
 
 .button--outline:hover {
@@ -281,6 +346,7 @@ a {
   display: block;
   overflow: hidden;
   border-radius: 6px;
+  box-shadow: var(--shadow);
 }
 
 .card-media .actor-photo {
@@ -300,16 +366,23 @@ a {
 }
 
 .actor-photo--fallback {
+  --hue: 220;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--hue) var(--ph-sat) var(--ph-light-1)),
+    hsl(calc(var(--hue) + 40) var(--ph-sat) var(--ph-light-2))
+  );
+  color: var(--ph-text);
 }
 
 .actor-photo--fallback span {
   font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--ph-text);
 }
 
 .card-body {
@@ -416,13 +489,13 @@ a {
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #7a7a7a;
+  color: var(--placeholder);
 }
 
 .field input:focus,
 .field textarea:focus {
   outline: none;
-  border-color: #8a8a8a;
+  border-color: var(--focus);
 }
 
 .field textarea {
@@ -484,7 +557,7 @@ a.card-title:hover {
 
 .field select:focus {
   outline: none;
-  border-color: #8a8a8a;
+  border-color: var(--focus);
 }
 
 .movie-detail {

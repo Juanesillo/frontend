@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import ActorCard from '../../components/ActorCard';
 import ActorPhoto from '../../components/ActorPhoto';
-import { getMovie } from '../../../lib/api';
+import { getMovie, getMoviePrizes } from '../../../lib/api';
 import { formatDate } from '../../../lib/format';
 
 const prizeStatus = { won: 'Ganado', nominated: 'Nominado' };
@@ -16,8 +16,9 @@ export default function DetallePeliculaPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getMovie(movieId)
-      .then(setMovie)
+    // GET /movies/:id no incluye los premios; se piden a /movies/:id/prizes.
+    Promise.all([getMovie(movieId), getMoviePrizes(movieId)])
+      .then(([movieData, prizes]) => setMovie({ ...movieData, prizes }))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, [movieId]);
