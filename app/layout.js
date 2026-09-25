@@ -1,15 +1,10 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import { Figtree } from "next/font/google";
 import "./globals.css";
 import { ActorsProvider } from "./context/actors-context";
+import Link from "next/link";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
 });
 
@@ -20,14 +15,16 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="es" className={figtree.variable}>
       <body>
         <ActorsProvider>
-          <nav className="navbar">
-            <Link href="/">Inicio</Link>
-            <Link href="/actors">Actores</Link>
-            <Link href="/crear">Crear actor</Link>
-          </nav>
+          <header className="navbar">
+            <Link href="/" className="brand">Arte7</Link>
+            <nav className="nav-links">
+              <Link href="/actors">Actores</Link>
+              <Link href="/crear" className="button button--small">Crear actor</Link>
+            </nav>
+          </header>
           <main>{children}</main>
         </ActorsProvider>
       </body>

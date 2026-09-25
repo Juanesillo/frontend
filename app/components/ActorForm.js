@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ActorPhoto from './ActorPhoto';
 
 function toDateInputValue(value) {
   if (!value) return '';
@@ -32,59 +33,73 @@ export default function ActorForm({ initialData, onSubmit, submitLabel = 'Guarda
 
   return (
     <form onSubmit={handleSubmit} className="actor-form">
-      <label>
-        Nombre
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
+      <div className="form-preview">
+        <ActorPhoto key={photo} name={name} photo={photo} />
+      </div>
 
-      <label>
-        Foto (URL)
-        <input
-          type="url"
-          value={photo}
-          onChange={(e) => setPhoto(e.target.value)}
-          required
-        />
-      </label>
+      <div className="form-fields">
+        <label className="field">
+          <span>Nombre</span>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nombre del actor"
+            required
+          />
+        </label>
 
-      <label>
-        Nacionalidad
-        <input
-          value={nationality}
-          onChange={(e) => setNationality(e.target.value)}
-          required
-        />
-      </label>
+        <label className="field">
+          <span>Foto (URL)</span>
+          <input
+            type="url"
+            value={photo}
+            onChange={(e) => setPhoto(e.target.value)}
+            placeholder="https://..."
+            required
+          />
+        </label>
 
-      <label>
-        Fecha de nacimiento
-        <input
-          type="date"
-          value={birthDate}
-          onChange={(e) => setBirthDate(e.target.value)}
-          required
-        />
-      </label>
+        <div className="field-row">
+          <label className="field">
+            <span>Nacionalidad</span>
+            <input
+              value={nationality}
+              onChange={(e) => setNationality(e.target.value)}
+              placeholder="Colombia"
+              required
+            />
+          </label>
 
-      <label>
-        Biografía
-        <textarea
-          value={biography}
-          onChange={(e) => setBiography(e.target.value)}
-          rows={4}
-          required
-        />
-      </label>
+          <label className="field">
+            <span>Fecha de nacimiento</span>
+            <input
+              type="date"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              required
+            />
+          </label>
+        </div>
 
-      {formError && <p className="form-error">{formError}</p>}
+        <label className="field">
+          <span>Biografía</span>
+          <textarea
+            value={biography}
+            onChange={(e) => setBiography(e.target.value)}
+            rows={5}
+            placeholder="Agrega una biografía"
+            required
+          />
+        </label>
 
-      <button type="submit" disabled={submitting}>
-        {submitting ? 'Guardando...' : submitLabel}
-      </button>
+        {formError && <p className="form-error">{formError}</p>}
+
+        <div className="form-actions">
+          <button type="submit" className="button" disabled={submitting}>
+            {submitting ? 'Guardando...' : submitLabel}
+          </button>
+        </div>
+      </div>
     </form>
   );
 }

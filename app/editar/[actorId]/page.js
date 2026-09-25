@@ -9,10 +9,7 @@ export default function EditarActorPage() {
   const { getActorById, editActor, loading } = useActors();
   const router = useRouter();
 
-  if (loading) return <p className="page">Cargando...</p>;
-
-  const actor = getActorById(actorId);
-  if (!actor) return <p className="page">No se encontró el actor.</p>;
+  const actor = loading ? null : getActorById(actorId);
 
   async function handleUpdate(data) {
     await editActor(actorId, data);
@@ -20,9 +17,18 @@ export default function EditarActorPage() {
   }
 
   return (
-    <div className="page">
-      <h1>Editar actor</h1>
-      <ActorForm initialData={actor} onSubmit={handleUpdate} submitLabel="Guardar cambios" />
+    <div className="view">
+      <div className="view-content">
+        <header className="view-header">
+          <p className="eyebrow">Actor</p>
+          <h1 className="view-title">{actor ? actor.name : 'Editar actor'}</h1>
+        </header>
+        {loading && <p className="status">Cargando...</p>}
+        {!loading && !actor && <p className="status">No se encontró el actor.</p>}
+        {actor && (
+          <ActorForm initialData={actor} onSubmit={handleUpdate} submitLabel="Guardar" />
+        )}
+      </div>
     </div>
   );
 }

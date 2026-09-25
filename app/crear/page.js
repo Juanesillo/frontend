@@ -14,9 +14,14 @@ export default function CrearActorPage() {
   }
 
   return (
-    <div className="page">
-      <h1>Crear actor</h1>
-      <ActorForm onSubmit={handleCreate} submitLabel="Crear actor" />
+    <div className="view">
+      <div className="view-content">
+        <header className="view-header">
+          <p className="eyebrow">Nuevo</p>
+          <h1 className="view-title">Crear actor</h1>
+        </header>
+        <ActorForm onSubmit={handleCreate} submitLabel="Crear actor" />
+      </div>
     </div>
   );
 }
